@@ -5,15 +5,25 @@
     </header>
     <ul>
       <li>
-        <friend-card></friend-card>
-        <friend-card></friend-card>
+        <friend-card
+          v-for="{ id, name, phone, email, isFavorite } in friends"
+          :key="id"
+          :id="id"
+          :name="name"
+          :phone="phone"
+          :email="email"
+          :is-favorite="isFavorite"
+          @update-favorite="(isFav, id) => toggleFavoriteStatus(isFav, id)"
+        ></friend-card>
       </li>
     </ul>
   </section>
 </template>
 
 <script>
+import FriendCard from "./components/FriendCard.vue";
 export default {
+  components: { FriendCard },
   name: "App",
   data() {
     return {
@@ -23,17 +33,27 @@ export default {
           name: "Manuel Lorenz",
           phone: " 01234 5678 991",
           email: "manuel@localhost.com",
+          isFavorite: true,
         },
         {
           id: 2,
           name: "Julie Jones",
           phone: "09876 543 221",
           email: "julie@localhost.com",
+          isFavorite: false,
         },
       ],
     };
   },
-  methods: {},
+  methods: {
+    toggleFavoriteStatus(isFavorite, id) {
+      console.log(isFavorite, id);
+      const friend = this.friends.find((f) => f.id === id);
+      if (friend) {
+        friend.isFavorite = !isFavorite;
+      }
+    },
+  },
   computed: {},
 };
 </script>

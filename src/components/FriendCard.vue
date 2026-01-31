@@ -1,9 +1,10 @@
 <template>
   <li>
-    <h2>{{ name }}</h2>
+    <h2>{{ name }} {{ isFavorite ? "(Favorite)" : "" }}</h2>
     <button @click="toggleDetails">
       {{ isVisible ? "Hide" : "Show" }} Details
     </button>
+    <button @click="toggleFavorite">toggle is favorite</button>
     <ul v-if="isVisible">
       <li>
         <strong>Phone: {{ phone }}</strong>
@@ -27,11 +28,38 @@ export default {
     toggleDetails() {
       this.isVisible = !this.isVisible;
     },
+    toggleFavorite() {
+      this.$emit("update-favorite", this.isFavorite, this.id);
+    },
   },
   props: {
-    name: String,
+    id: {
+      type: Number,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      validator(value) {
+        return value?.trim().split(" ").length >= 2;
+      },
+    },
     phone: String,
-    email: String,
+    email: {
+      type: String,
+      required: false,
+      default: "No email provided",
+    },
+    isFavorite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  emits: {
+    "update-favorite": (isFav, id) => {
+      return typeof isFav === "boolean" && typeof id === "number";
+    },
   },
 };
 </script>
