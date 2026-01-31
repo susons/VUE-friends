@@ -28,7 +28,8 @@ header {
   list-style: none;
 }
 
-#app li {
+#app li,
+#app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
@@ -60,4 +61,31 @@ header {
   background-color: #ec3169;
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+#app form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  font: inherit;
+  flex-wrap: wrap;
+  padding: 0.75rem;
+}
+#app form input,
+#app form button {
+  flex: 0 0 80%;
+  padding: 0.15rem;
+  margin: 0.25rem 0;
+}
+
+#app label {
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+
+#app form div {
+  margin: 1rem 0;
 }

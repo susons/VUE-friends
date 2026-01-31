@@ -3,6 +3,11 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <section>
+      <add-friend
+        @add-friend="(friendData) => addFriend(friendData)"
+      ></add-friend>
+    </section>
     <ul>
       <li>
         <friend-card
@@ -14,6 +19,8 @@
           :email="email"
           :is-favorite="isFavorite"
           @update-favorite="(isFav, id) => toggleFavoriteStatus(isFav, id)"
+          @delete-friend="deleteFriend"
+          @send-smile="sendSmile"
         ></friend-card>
       </li>
     </ul>
@@ -27,6 +34,8 @@ export default {
   name: "App",
   data() {
     return {
+      animals: ["🐴", "🐕", "🐘", "🐻", "🐞"],
+      emojis: "😀 😂 😊 😎 😜",
       friends: [
         {
           id: 1,
@@ -45,6 +54,13 @@ export default {
       ],
     };
   },
+  provide() {
+    return {
+      animals: this.animals,
+      getEmojis: () => this.emojis,
+      sendFruit: this.sendFruit,
+    };
+  },
   methods: {
     toggleFavoriteStatus(isFavorite, id) {
       console.log(isFavorite, id);
@@ -53,7 +69,26 @@ export default {
         friend.isFavorite = !isFavorite;
       }
     },
+    addFriend(friendData) {
+      this.friends.push({ id: this.friends.length + 1, ...friendData });
+    },
+    deleteFriend(id) {
+      console.log("runs? ", id);
+      this.friends = this.friends.filter((f) => f.id !== id);
+    },
+    sendSmile(data) {
+      console.log("Smile received in App.vue:", data);
+    },
+    sendFruit(data) {
+      console.log("Fruit received in App.vue:", data);
+    },
   },
   computed: {},
+  mounted() {
+    setTimeout(() => {
+      this.animals.push("qweqwewqeqw");
+      this.emojis = "😜";
+    }, 3000);
+  },
 };
 </script>
